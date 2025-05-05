@@ -1,5 +1,7 @@
 import NextAuth from "next-auth"
 
+console.log("GOOGLE_CLIENT_ID", process.env.GOOGLE_CLIENT_ID)
+
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import { prisma } from "@/lib/prisma"
 import Google from "next-auth/providers/google"
@@ -13,12 +15,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
     providers:[
             Google({
-                clientId: process.env.AUTH_GOOGLE_ID!|| "",
-                clientSecret: process.env.AUTH_GOOGLE_SECRET! || "",
+                clientId: process.env.AUTH_GOOGLE_ID!,
+                clientSecret: process.env.AUTH_GOOGLE_SECRET!,
             }),
             Github({
-                clientId: process.env.AUTH_GITHUB_ID! || "",
-                clientSecret: process.env.AUTH_GITHUB_SECRET! || "",
+                clientId: process.env.AUTH_GITHUB_ID!,
+                clientSecret: process.env.AUTH_GITHUB_SECRET!,
             }),
         
             Credentials({   
