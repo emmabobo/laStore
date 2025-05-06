@@ -2,23 +2,24 @@ import NextAuth from "next-auth"
 
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import { prisma } from "@/lib/prisma"
+import Google from "next-auth/providers/google"
+import Github from "next-auth/providers/github"
 
 
- 
-export const { handlers, signIn, signOut, auth } = NextAuth({
+export const config = {
+    providers: [Github, Google],
+    pages: {signIn: "/login",}, 
     adapter: PrismaAdapter(prisma),
 
-    providers:[Google,],
+    secret: process.env.NEXTAUTH_SECRET,
 
     callbacks: {
-        authorized: async ({ auth }) => {
+        authorized: async ({ auth }: { auth: any }) => {
           // Logged in users are authenticated, otherwise redirect to login page
           return !!auth;
         },
       },
-
-    pages: {
-        signIn: "/login",
-        error: "/login",
-      },
-})
+    
+}
+ 
+export const { handlers, signIn, signOut, auth } = NextAuth(config)
